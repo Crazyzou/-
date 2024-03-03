@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+    />
+    <link rel="stylesheet" href="/style/style.css" />
+    <style>
+      button {
+        padding: 5px 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--button-background);
+        color: var(--color-white);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: var(--box-shadow);
+      }
+
+      button:hover {
+        background-color: var(--button-hover);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+      }
+    </style>
+    <title>固定资产管理系统</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- ------------------ 左侧索引 ----------------------- -->
+      <aside>
+        <div class="top">
+          <div class="logo">
+            <img src="/assets/images/roocket.ico" alt="" class="" />
+            <h2 class="text-muted">Admin<span class="danger"></span></h2>
+          </div>
+        </div>
+        <div class="sidebar">
+          <a href="javascript:void(0)" onclick="displayInsights()">
+            <span class="material-icons-sharp">grid_view</span>
+            <h3>基本信息管理</h3>
+          </a>
+          <a href="javascript:void(0)" onclick="displayPurchase()">
+            <span class="material-icons-sharp">person_outline</span>
+            <h3>采购申请信息管理</h3>
+          </a>
+          <a href="javascript:void(0)" onclick="displayAssetPurchase()">
+            <span class="material-icons-sharp">receipt_long</span>
+            <h3>资产采购信息管理</h3>
+          </a>
+          <a
+            href="javascript:void(0)"
+            class="active"
+            onclick="displayAssetGive()"
+          >
+            <span class="material-icons-sharp">insights</span>
+            <h3>资产发放信息管理</h3>
+          </a>
+          <a href="javascript:void(0)" onclick="displayFixedAsset()">
+            <span class="material-icons-sharp">mail_outline</span>
+            <h3>固定资产信息管理</h3>
+            <span id="message-count" class="message-count">56</span>
+          </a>
+          <a href="javascript:void(0)" onclick="displayFacility()">
+            <span class="material-icons-sharp">inventory</span>
+            <h3>设备借用归还管理</h3>
+          </a>
+          <a href="javascript:void(0)" onclick="displayResort()">
+            <span class="material-icons-sharp">report_gmailerrorred</span>
+            <h3>盘点信息管理</h3>
+          </a>
+          <a href="javascript:void(0)" onclick="displaySetting()">
+            <span class="material-icons-sharp">settings</span>
+            <h3>设置</h3>
+          </a>
+          <a href="javascript:void(0)">
+            <span class="material-icons-sharp">logout</span>
+            <h3>退出系统</h3>
+          </a>
+        </div>
+      </aside>
+
+      <!-- ------------------ 顶端菜单栏 ----------------------- -->
+      <div class="right">
+        <div class="top">
+          <button id="menu-btn">
+            <span class="material-icons-sharp">menu</span>
+          </button>
+
+          <!--日夜主题切换-->
+          <div class="theme-toggler">
+            <span class="material-icons-sharp active">light_mode</span>
+            <span class="material-icons-sharp">dark_mode</span>
+          </div>
+
+          <!-- ------------------ 欢迎致辞 ----------------------- -->
+          <div class="profile">
+            <div class="info">
+              <p>欢迎使用！<b>管理员</b></p>
+              <small class="text-muted">左侧可更改日夜模式</small>
+            </div>
+            <div class="profile-photo">
+              <img src="/assets/images/profile.jpg" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ------------------ 资产发放信息管理 ----------------------- -->
+      <main>
+        <div class="dashboard">
+          <table id="ver-minimalist">
+            <tr>
+              <th>编号</th>
+              <th>名称</th>
+              <th>购置价格</th>
+              <th>使用人</th>
+              <th>发放日期</th>
+              <th>累计折旧</th>
+              <th>状态</th>
+              <th>操作</th>
+            </tr>
+          </table>
+        </div>
+        <div class="controls">
+          <button id="add">
+            <span class="material-icons-sharp">add</span> 添加信息
+          </button>
+          <button id="delete">
+            <span class="material-icons-sharp">delete</span> 删除信息
+          </button>
+        </div>
+      </main>
+      <div id="addModal" class="modal-content">
+        <form id="purchase-add">
+          <h3 for="orderNumber">编号:</h3>
+          <input type="text" id="orderNumber" name="orderNumber" />
+          <h3 for="orderTime">名称:</h3>
+          <input type="text" id="orderTime" name="orderTime" />
+          <h3 for="price">购置价格:</h3>
+          <input type="text" id="price" name="price" />
+          <h3 for="user">使用人:</h3>
+          <input type="text" id="user" name="user" />
+          <h3 for="date">发放日期:</h3>
+          <input type="datetime-local" id="date" name="date" />
+          <h3 for="depreciation">累计折旧:</h3>
+          <input type="text" id="depreciation" name="depreciation" />
+          <h3 for="status">状态:</h3>
+          <input type="text" id="status" name="status" /><br />
+          <button id="confirm">确认</button>
+        </form>
+      </div>
+      <div id="deleteModal" class="modal-content">
+        <form id="purchase-delete">
+          <h3 for="row">请输入行号:</h3>
+          <input type="text" id="row" name="row" /><br />
+          <button id="confirm-d">确认</button>
+        </form>
+      </div>
+      <script src="/javascript/app.js"></script>
+    </div>
+  </body>
+</html>

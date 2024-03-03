@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+    />
+    <link rel="stylesheet" href="/style/style.css" />
+    <style>
+      button {
+        padding: 5px 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--button-background);
+        color: var(--color-white);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: var(--box-shadow);
+      }
+
+      button:hover {
+        background-color: var(--button-hover);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+      }
+
+      /* ====================  Main ===================== */
+
+      main {
+        margin-top: 50px;
+      }
+
+      main .date {
+        display: inline-block;
+        background: var(--color-light);
+        border-radius: var(--border-radius-1);
+        margin-top: 1rem;
+        padding: 0.5rem 1.6rem;
+      }
+
+      main .date input[type="date"] {
+        background: transparent;
+        color: var(--color-dark);
+      }
+
+      main .insights {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.6rem;
+      }
+
+      main .insights > div {
+        background: var(--color-white);
+        padding: var(--card-padding);
+        border-radius: var(--card-border-radius);
+        margin-top: 1rem;
+        box-shadow: var(--box-shadow);
+        transition: all 300ms ease; /* 添加过渡效果 */
+      }
+
+      main .insights > div:hover {
+        box-shadow: none;
+        transform: scale(1.05);
+      }
+
+      main .insights > div span {
+        background: var(--color-primary);
+        padding: 0.5rem;
+        border-radius: 50%;
+        color: var(--color-white);
+        font-size: 2rem;
+      }
+
+      main .insights > div.expenses span {
+        background: var(--color-danger);
+      }
+
+      main .insights > div.income span {
+        background: var(--color-success);
+      }
+
+      main .insights > div .middle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      main .insights h3 {
+        margin: 1rem 0 0.6rem;
+        font-size: 1rem;
+      }
+
+      main .insights .progress {
+        position: relative;
+        width: 92px;
+        height: 92px;
+      }
+
+      main .insights svg {
+        width: 7rem;
+        height: 7rem;
+      }
+
+      main .insights svg circle {
+        fill: none;
+        stroke: var(--color-primary);
+        stroke-width: 14;
+        stroke-linecap: round;
+        transform: translate(5px, 5px);
+      }
+
+      main .insights .sales svg circle {
+        stroke-dashoffset: -30;
+        stroke-dasharray: 200;
+      }
+
+      main .insights .expenses svg circle {
+        stroke-dashoffset: -20;
+        stroke-dasharray: 80;
+      }
+
+      main .insights .income svg circle {
+        stroke-dashoffset: 35;
+        stroke-dasharray: 110;
+      }
+
+      main .insights .progress .number {
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+        font-size: 16px;
+      }
+
+      main .insights small {
+        margin-top: 1.6rem;
+        display: block;
+      }
+
+      /* ====================  RECENT ORDERS ===================== */
+
+      main .recent-order {
+        margin-top: 2rem;
+        /* Add a transition for a smooth margin change */
+        transition: margin-top 300ms ease;
+      }
+
+      main .recent-order table {
+        background: var(--color-white);
+        width: 100%;
+        border-radius: var(--card-border-radius);
+        padding: var(--card-padding);
+        text-align: center;
+        box-shadow: var(--box-shadow);
+        transition: all 300ms ease;
+      }
+
+      main .recent-order table:hover {
+        box-shadow: none;
+        /* Add a transform to slightly scale the table on hover */
+        transform: scale(1.02);
+      }
+
+      main table tbody td {
+        height: 2.8rem;
+        border-bottom: 3px solid var(--color-light);
+        color: var(--color-dark-variant);
+        /* Add a transition for a smooth color change */
+        transition: color 300ms ease;
+      }
+
+      main table tbody tr:last-child td {
+        border: none;
+      }
+
+      main .recent-order a {
+        text-align: center;
+        display: block;
+        margin: 1rem auto;
+        color: var(--color-primary);
+        /* Add a hover effect to the link */
+        transition: color 300ms ease;
+      }
+
+      main .recent-order a:hover {
+        color: var(--color-primary-dark);
+      }
+
+      /* ====================  RECENT UPDATES ===================== */
+      .right .recent-updates {
+        margin-top: 1rem;
+        /* Add a transition for a smooth margin change */
+        transition: margin-top 300ms ease;
+      }
+
+      .right .recent-updates h2 {
+        margin-bottom: 0.8rem;
+        /* Add a transition for a smooth margin change */
+        transition: margin-bottom 300ms ease;
+      }
+
+      .right .recent-updates .updates {
+        background: var(--color-white);
+        padding: var(--card-padding);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--box-shadow);
+        transition: all 300ms ease;
+      }
+
+      .right .recent-updates .updates:hover {
+        box-shadow: none;
+        /* Add a transform to slightly scale the updates on hover */
+        transform: scale(1.02);
+      }
+
+      .right .recent-updates .updates .update {
+        display: grid;
+        grid-template-columns: 2.6rem auto;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        /* Add a transition for a smooth margin change */
+        transition: margin-bottom 300ms ease;
+      }
+
+      /* ====================  SALES ANALYTICS ===================== */
+
+      .right .sales-analytics {
+        margin-top: 2rem;
+      }
+
+      .right.sales-analytics .add-product:hover {
+        background-color: var(--color-primary);
+        color: white;
+      }
+
+      .right .sales-analytics h2 {
+        margin-bottom: 0.8rem;
+        text-transform: uppercase;
+      }
+
+      .right .sales-analytics .item {
+        background: var(--color-white);
+        display: flex;
+
+        align-items: center;
+        gap: 1rem;
+        align-items: center;
+        margin-bottom: 1.2rem;
+        padding: 1.4rem var(--card-padding);
+        border-radius: var(--border-radius-3);
+        box-shadow: var(--box-shadow);
+        transition: all 300ms ease;
+      }
+
+      .right .sales-analytics .item:hover {
+        box-shadow: none;
+      }
+
+      .right .sales-analytics .item .right {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin: 0;
+        width: 100%;
+      }
+
+      .right .sales-analytics .item .icon {
+        padding: 0.6rem;
+        color: var(--color-white);
+        border-radius: 50%;
+        background: var(--color-primary);
+        display: flex;
+      }
+
+      .right .sales-analytics .item.offline .icon {
+        background-color: var(--color-danger);
+      }
+
+      .right .sales-analytics .item.customers .icon {
+        background-color: var(--color-success);
+      }
+
+      .right .sales-analytics .add-product {
+        background-color: transparent;
+        border: 2px dashed var(--color-warning);
+        color: var(--color-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .right .sales-analytics .add-product div {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+
+      .right .sales-analytics .add-product div h3 {
+        font-weight: 600;
+      }
+    </style>
+    <title>固定资产管理系统</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- ------------------ 左侧索引 ----------------------- -->
+      <aside>
+        <div class="top">
+          <div class="logo">
+            <img src="/assets/images/roocket.ico" alt="" class="" />
+            <h2 class="text-muted">Admin<span class="danger"></span></h2>
+          </div>
+        </div>
+        <div class="sidebar">
+          <a href="javascript:void(0)" onclick="displayInsights()">
+            <span class="material-icons-sharp">grid_view</span>
+            <h3>基本信息管理</h3>
+          </a>
+          <a href="javascript:void(0)" onclick="displayPurchase()">
+            <span class="material-icons-sharp">person_outline</span>
+            <h3>采购申请信息管理</h3>
+          </a>
+          <a href="javascript:void(0)" onclick="displayAssetPurchase()">
+            <span class="material-icons-sharp">receipt_long</span>
+            <h3>资产采购信息管理</h3>
+          </a>
+          <a href="javascript:void(0)" onclick="displayAssetGive()">
+            <span class="material-icons-sharp">insights</span>
+            <h3>资产发放信息管理</h3>
+          </a>
+          <a href="javascript:void(0)" onclick="displayFixedAsset()">
+            <span class="material-icons-sharp">mail_outline</span>
+            <h3>固定资产信息管理</h3>
+            <span id="message-count" class="message-count">56</span>
+          </a>
+          <a href="javascript:void(0)" onclick="displayFacility()">
+            <span class="material-icons-sharp">inventory</span>
+            <h3>设备借用归还管理</h3>
+          </a>
+          <a href="javascript:void(0)" class="active" onclick="displayResort()">
+            <span class="material-icons-sharp">report_gmailerrorred</span>
+            <h3>盘点信息管理</h3>
+          </a>
+          <a href="javascript:void(0)" onclick="displaySetting()">
+            <span class="material-icons-sharp">settings</span>
+            <h3>设置</h3>
+          </a>
+          <a href="javascript:void(0)">
+            <span class="material-icons-sharp">logout</span>
+            <h3>退出系统</h3>
+          </a>
+        </div>
+      </aside>
+
+      <!-- ------------------ 顶端菜单栏 ----------------------- -->
+      <div class="right">
+        <div class="top">
+          <button id="menu-btn">
+            <span class="material-icons-sharp">menu</span>
+          </button>
+
+          <!--日夜主题切换-->
+          <div class="theme-toggler">
+            <span class="material-icons-sharp active">light_mode</span>
+            <span class="material-icons-sharp">dark_mode</span>
+          </div>
+
+          <!-- ------------------ 欢迎致辞 ----------------------- -->
+          <div class="profile">
+            <div class="info">
+              <p>欢迎使用！<b>管理员</b></p>
+              <small class="text-muted">左侧可更改日夜模式</small>
+            </div>
+            <div class="profile-photo">
+              <img src="/assets/images/profile.jpg" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ------------------资产发放信息管理 ----------------------- -->
+
+      <main>
+        <div class="insights">
+          <div class="sales">
+            <span class="material-icons-sharp">analytics</span>
+            <div class="middle">
+              <div class="left">
+                <h3>采购信息管理</h3>
+              </div>
+
+              <div class="progress">
+                <svg>
+                  <circle cx="38" cy="38" r="36"></circle>
+                </svg>
+                <div class="number">
+                  <p>81%</p>
+                </div>
+              </div>
+            </div>
+
+            <small class="text-muted">最近24小时更新</small>
+          </div>
+
+          <div class="expenses">
+            <span class="material-icons-sharp">bar_chart</span>
+            <div class="middle">
+              <div class="left">
+                <h3>资产信息管理</h3>
+              </div>
+
+              <div class="progress">
+                <svg>
+                  <circle cx="38" cy="38" r="36"></circle>
+                </svg>
+                <div class="number">
+                  <p>62%</p>
+                </div>
+              </div>
+            </div>
+
+            <small class="text-muted">最近8小时更新</small>
+          </div>
+
+          <div class="income">
+            <span class="material-icons-sharp">stacked_line_chart</span>
+            <div class="middle">
+              <div class="left">
+                <h3>发放信息管理</h3>
+              </div>
+
+              <div class="progress">
+                <svg>
+                  <circle cx="38" cy="38" r="36"></circle>
+                </svg>
+                <div class="number">
+                  <p>53%</p>
+                </div>
+              </div>
+            </div>
+            <small class="text-muted">最近14小时更新</small>
+          </div>
+        </div>
+
+        <div class="insights">
+          <!-- 固定资产信息管理 -->
+          <div class="fixed-asset-info">
+            <span class="material-icons-sharp">account_balance</span>
+            <div class="middle">
+              <div class="left">
+                <h3>固定资产信息管理</h3>
+              </div>
+
+              <div class="progress">
+                <svg>
+                  <circle cx="38" cy="38" r="36"></circle>
+                </svg>
+                <div class="number">
+                  <p id="fixed-asset-progress">81%</p>
+                </div>
+              </div>
+            </div>
+
+            <small class="text-muted">最近24小时更新</small>
+          </div>
+
+          <!-- 设备借用归还管理 -->
+          <div class="expenses">
+            <span class="material-icons-sharp">assignment_returned</span>
+            <div class="middle">
+              <div class="left">
+                <h3>设备借用归还管理</h3>
+              </div>
+              <div class="progress">
+                <svg>
+                  <circle cx="38" cy="38" r="36"></circle>
+                </svg>
+                <div class="number">
+                  <p id="device-borrow-return-progress">62%</p>
+                </div>
+              </div>
+            </div>
+
+            <small class="text-muted">最近8小时更新</small>
+          </div>
+
+          <!-- 基本信息管理 -->
+          <div class="income">
+            <span class="material-icons-sharp">info</span>
+            <div class="middle">
+              <div class="left">
+                <h3>基本信息管理</h3>
+              </div>
+              <div class="progress">
+                <svg>
+                  <circle cx="38" cy="38" r="36"></circle>
+                </svg>
+                <div class="number">
+                  <p id="basic-info-progress">53%</p>
+                </div>
+              </div>
+            </div>
+
+            <small class="text-muted">最近14小时更新</small>
+          </div>
+        </div>
+
+        <div class="dashboard"></div>
+      </main>
+      <script src="/javascript/app.js"></script>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+    />
+    <link rel="stylesheet" href="/style/style.css" />
+    <style>
+      button {
+        padding: 3px 7px;
+        font-size: 8px;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--button-background);
+        color: var(--color-white);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: var(--box-shadow);
+      }
+
+      button:hover {
+        background-color: var(--button-hover);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+      }
+    </style>
+    <title>固定资产管理系统</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- ------------------ 左侧索引 ----------------------- -->
+      <aside>
+        <div class="top">
+          <div class="logo">
+            <img src="/assets/images/roocket.ico" alt="" class="" />
+            <h2 class="text-muted">Admin<span class="danger"></span></h2>
+          </div>
+        </div>
+        <div class="sidebar">
+          <a href="javascript:void(0)" onclick="displayInsights()">
+            <span class="material-icons-sharp">grid_view</span>
+            <h3>基本信息管理</h3>
+          </a>
+          <a href="javascript:void(0)" onclick="displayPurchase()">
+            <span class="material-icons-sharp">person_outline</span>
+            <h3>采购申请信息管理</h3>
+          </a>
+          <a href="javascript:void(0)" onclick="displayAssetPurchase()">
+            <span class="material-icons-sharp">receipt_long</span>
+            <h3>资产采购信息管理</h3>
+          </a>
+          <a href="javascript:void(0)" onclick="displayAssetGive()">
+            <span class="material-icons-sharp">insights</span>
+            <h3>资产发放信息管理</h3>
+          </a>
+          <a href="javascript:void(0)" onclick="displayFixedAsset()">
+            <span class="material-icons-sharp">mail_outline</span>
+            <h3>固定资产信息管理</h3>
+            <span id="message-count" class="message-count">56</span>
+          </a>
+          <a href="javascript:void(0)" onclick="displayFacility()">
+            <span class="material-icons-sharp">inventory</span>
+            <h3>设备借用归还管理</h3>
+          </a>
+          <a href="javascript:void(0)" onclick="displayResort()">
+            <span class="material-icons-sharp">report_gmailerrorred</span>
+            <h3>盘点信息管理</h3>
+          </a>
+          <a
+            href="javascript:void(0)"
+            class="active"
+            onclick="displaySetting()"
+          >
+            <span class="material-icons-sharp">settings</span>
+            <h3>设置</h3>
+          </a>
+          <a href="javascript:void(0)">
+            <span class="material-icons-sharp">logout</span>
+            <h3>退出系统</h3>
+          </a>
+        </div>
+      </aside>
+
+      <!-- ------------------ 顶端菜单栏 ----------------------- -->
+      <div class="right">
+        <div class="top">
+          <button id="menu-btn">
+            <span class="material-icons-sharp">menu</span>
+          </button>
+
+          <!--日夜主题切换-->
+          <div class="theme-toggler">
+            <span class="material-icons-sharp active">light_mode</span>
+            <span class="material-icons-sharp">dark_mode</span>
+          </div>
+
+          <!-- ------------------ 欢迎致辞 ----------------------- -->
+          <div class="profile">
+            <div class="info">
+              <p>欢迎使用！<b>管理员</b></p>
+              <small class="text-muted">左侧可更改日夜模式</small>
+            </div>
+            <div class="profile-photo">
+              <img src="/assets/images/profile.jpg" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ------------------ 基本信息管理 ----------------------- -->
+      <main>
+        <div class="dashboard">
+          <div class="item">
+            <span class="material-icons-sharp">settings</span>
+            <h3>通用设置</h3>
+            <p>
+              启用通知：<button
+                id="toggle-button"
+                onclick="
+                var messageCount = document.querySelector('.message-count');
+                if (this.innerText == '是') {
+                  this.innerText = '否';
+                  messageCount.style.display = 'none';
+                  var xhr = new XMLHttpRequest();
+                  xhr.open('GET', '/api/setMessage?username=' + localStorage.getItem('username') + '&NotificationsEnabled=' + 0);
+                  xhr.send();
+                } else {
+                  this.innerText = '是';
+                  messageCount.style.display = 'block';
+                  var xhr = new XMLHttpRequest();
+                  xhr.open('GET', '/api/setMessage?username=' + localStorage.getItem('username') + '&NotificationsEnabled=' + 1);
+                  xhr.send();
+                }
+              "
+              >
+                是
+              </button>
+            </p>
+          </div>
+          <div class="item">
+            <span class="material-icons-sharp">account_circle</span>
+            <h3>个人信息</h3>
+            <p>昵称：<input type="text" /></p>
+            <p>邮箱：<input type="email" /></p>
+            <button
+              id="nick-button"
+              onclick="
+              var username = localStorage.getItem('username');
+              var nickname = document.querySelector('.item input[type=\'text\']').value;
+              document.querySelector('.info b').innerText = nickname;
+              var email = document.querySelector('.item input[type=\'email\']').value;
+
+              // 更新昵称
+              var xhr_save_nick = new XMLHttpRequest();
+              xhr_save_nick.open(
+                'GET',
+                '/api/setUserNick?username=' + username + '&nickname=' + nickname
+                );
+                xhr_save_nick.send();
+
+                // 更新电子邮件
+                var xhr_save_email = new XMLHttpRequest();
+                xhr_save_email.open(
+                  'GET',
+                  '/api/setUserEmail?username=' + username + '&Email=' + email
+                  );
+                  xhr_save_email.send();
+            "
+            >
+              保存
+            </button>
+          </div>
+          <div class="item">
+            <span class="material-icons-sharp">lock</span>
+            <h3>安全设置</h3>
+            <p>密码：<input type="password" /></p>
+            <p>
+              启用两步验证：<button
+                onclick="this.innerText = this.innerText == '是' ? '否' : '是'"
+              >
+                是
+              </button>
+            </p>
+          </div>
+          <div class="item">
+            <span class="material-icons-sharp">language</span>
+            <h3 id="setting-text">语言设置</h3>
+            <p>
+              语言：<button id="language-button" onclick="changeLanguage()">
+                中文
+              </button>
+            </p>
+          </div>
+          <div class="item">
+            <span class="material-icons-sharp">brightness_medium</span>
+            <h3>显示设置</h3>
+            <p>
+              字体大小：<button
+                id="font-size-button"
+                onclick="
+                var fontSize;
+                if (this.innerText == '小') {
+                  this.innerText = '中';
+                  fontSize = '1';
+                } else if (this.innerText == '中') {
+                  this.innerText = '大';
+                  fontSize = '1.05';
+                } else {
+                  this.innerText = '小';
+                  fontSize = '0.95';
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/api/setFontSize?username=' + localStorage.getItem('username') + '&fontSize=' + fontSize);
+                xhr.send();
+                document.documentElement.style.setProperty('--font-multiple', fontSize);
+              "
+              >
+                中
+              </button>
+            </p>
+          </div>
+          <div class="item">
+            <span class="material-icons-sharp">backup</span>
+            <h3>备份与恢复</h3>
+            <p><button>备份数据</button></p>
+            <p><button>恢复数据</button></p>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="/javascript/app.js"></script>
+  </body>
+</html>
